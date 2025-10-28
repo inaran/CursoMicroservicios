@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/CursoMicroservicios/CopilotIndices/17.14.1347.20289
+/.vs/CursoMicroservicios/FileContentIndex
+/.vs
+/webapi/obj/Debug/net8.0
+/webapi/obj/Release/net8.0
+/webapi/.vs/webapi
