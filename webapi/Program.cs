@@ -1,20 +1,33 @@
+using webapi.Application.Services;
+using webapi.Domain.Repositories;
+using webapi.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+
+// Domain Dependencies (DDD)
+builder.Services.AddScoped<IPizzaRepository, InMemoryPizzaRepository>();
+builder.Services.AddScoped<IIngredienteRepository, InMemoryIngredienteRepository>();
+
+// Application Services (DDD)
+builder.Services.AddScoped<IPizzaService, PizzaService>();
+builder.Services.AddScoped<IIngredienteService, IngredienteService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+
+app.MapControllers();
 
 var summaries = new[]
 {
@@ -33,8 +46,7 @@ app.MapGet("/weatherforecast", () =>
         .ToArray();
     return forecast;
 })
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+.WithName("GetWeatherForecast");
 
 app.Run();
 
